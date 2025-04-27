@@ -29,8 +29,6 @@ npm run start
 执行后会打开浏览器，首次使用需要登录获取 cookies，在 mcp settings 环境变量中输入验证码完成登录流程。
 登录成功后，cookies 和 token 将保存在 jsonPath 目录下。后续登录将使用保存的 cookies 和 token。
 
-[全流程录屏](https://mass-office.alipay.com/huamei_koqzbu/afts/file/MmadTbdbvzMAAAAAAAAAABAAenV5AQBr)
-
 ### tool 示例
 
 - 发布图文笔记 create_note
