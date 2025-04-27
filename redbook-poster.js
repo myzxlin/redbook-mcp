@@ -12,33 +12,7 @@ export class RedbookPoster {
       .forBrowser("chrome")
       .setChromeOptions(new chrome.Options())
       .build();
-    this.tokenFile = path.join(jsonPath, "redbook_token.json");
     this.cookiesFile = path.join(jsonPath, "redbook_cookies.json");
-    this.token = this._loadToken();
-  }
-
-  _loadToken() {
-    if (fs.existsSync(this.tokenFile)) {
-      try {
-        const tokenData = JSON.parse(fs.readFileSync(this.tokenFile, "utf8"));
-        // 检查token是否过期
-        if (tokenData.expire_time > Date.now() / 1000) {
-          return tokenData.token;
-        }
-      } catch (err) {
-        console.error("Error loading token:", err);
-      }
-    }
-    return null;
-  }
-
-  _saveToken(token) {
-    const tokenData = {
-      token: token,
-      // token有效期设为30天
-      expire_time: Date.now() / 1000 + 30 * 24 * 3600,
-    };
-    fs.writeFileSync(this.tokenFile, JSON.stringify(tokenData));
   }
 
   async _loadCookies() {
@@ -61,11 +35,7 @@ export class RedbookPoster {
   }
 
   async login(phone, verificationCode = "") {
-    // 如果token有效则直接返回
-    if (this.token) {
-      return;
-    }
-    // 尝试加载cookies进行登录
+    // 加载cookies进行登录
     await this.driver.get("https://creator.xiaohongshu.com/login");
     await this._loadCookies();
     await this.driver.navigate().refresh();
@@ -74,7 +44,6 @@ export class RedbookPoster {
     // 检查是否已经登录
     const currentUrl = await this.driver.getCurrentUrl();
     if (currentUrl !== "https://creator.xiaohongshu.com/login") {
-      this.token = this._loadToken();
       await this._saveCookies();
       await new Promise((resolve) => setTimeout(resolve, 2000));
       return;
@@ -146,7 +115,7 @@ export class RedbookPoster {
     );
     await loginButton.click();
 
-    // 等待登录成功,获取token
+    // 等待登录成功,获取cookies
     await new Promise((resolve) => setTimeout(resolve, 3000));
     // 保存cookies
     await this._saveCookies();
