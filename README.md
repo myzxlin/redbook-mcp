@@ -1,6 +1,6 @@
 # Redbook-Publish-MCP
 
-小红书内容发布 MCP 服务器，使用 Selenium WebDriver 进行浏览器自动化操作，支持发布图文笔记和视频笔记。
+小红书内容发布 MCP 服务器，使用 playwright 进行浏览器自动化操作，支持发布图文笔记和视频笔记。
 
 ## MCP Settings
 

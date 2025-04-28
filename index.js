@@ -17,7 +17,7 @@ export const createNote = async ({ title, content, images }) => {
   let res = "";
   try {
     const poster = new RedbookPoster(jsonPath);
-    const loginRes = await poster.login(phone, verificationCode, jsonPath);
+    const loginRes = await poster.login(phone, verificationCode);
     if (loginRes?.message) {
       return {
         content: [{ type: "text", text: loginRes.message }],
@@ -48,7 +48,7 @@ export const createVideoNote = async ({ title, content, videos }) => {
   let res = "";
   try {
     const poster = new RedbookPoster(jsonPath);
-    await poster.login(phone, verificationCode, jsonPath);
+    await poster.login(phone, verificationCode);
 
     const localVideos = [];
     for (const video of videos) {
